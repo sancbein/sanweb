@@ -2,30 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage ('Compile Stage') {
-
+        stage('Checkout') {
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn clean compile'
-                }
+                checkout([$class: 'GitSCM', branches: [[name: '**']], extensions: [], userRemoteConfigs: [[credentialsId: '494342df-10c0-4dfd-b8e1-c9c5a4eb296d', url: 'https://github.com/sancbein/sanweb.git']]])
             }
         }
-
-        stage ('Testing Stage') {
-
+        stage('Build'){
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
+                git branch: '', changelog: false, credentialsId: '494342df-10c0-4dfd-b8e1-c9c5a4eb296d', poll: false, url: 'https://github.com/sancbein/sanweb.git'
+                sh 'javac Simple.java; java Simple'
             }
         }
-
-
-        stage ('Deployment Stage') {
+        stage('Test'){
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
-                }
+                echo 'Testing application'
             }
         }
     }
