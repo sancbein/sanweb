@@ -10,7 +10,7 @@ pipeline {
         stage('Build'){
             steps {
                 git branch: '', changelog: false, credentialsId: '494342df-10c0-4dfd-b8e1-c9c5a4eb296d', poll: false, url: 'https://github.com/sancbein/sanweb.git'
-                sh 'javac Simple.java; java Simple'
+                sh 'df -h; uname -n'
             }
         }
         stage('Test'){
